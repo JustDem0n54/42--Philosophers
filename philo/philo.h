@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:22:59 by nrontard          #+#    #+#             */
-/*   Updated: 2025/04/16 16:22:17 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/04/17 11:44:06 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,14 @@
 
 typedef struct s_philo
 {
-	int				p_id;
+	int				id;
 	pthread_mutex_t	*f_left;
 	pthread_mutex_t	*f_right;
-	int				t_last_eat;
+	long			t_last_eat;
 	int				nb_ate;
 	pthread_t		thread;
-	struct s_var	*p_var;
+	struct s_var	*var;
+	int				death;
 }	t_philo;
 
 typedef struct s_var
@@ -38,11 +39,20 @@ typedef struct s_var
 	int				t_death;
 	int				t_sleep;
 	int				nb_eat;
+	long			start;
 	t_philo			*philos;
 }	t_var;
 
 //utils
 int		ft_atoi(const char *str);
 void	free_all(t_var *var);
+long	timer(t_var *var);
+long	get_time_in_ms(void);
+
+//routine
+void	*philo_routine(void *philosophe);
+
+//init
+t_var	*init_var(t_var *var, char **argv, int argc);
 
 #endif

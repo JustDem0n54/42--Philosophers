@@ -6,11 +6,27 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:56:21 by nrontard          #+#    #+#             */
-/*   Updated: 2025/04/16 14:11:06 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/04/17 11:40:54 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
+
+long	get_time_in_ms()
+{
+	struct timeval tv;
+	gettimeofday(&tv, NULL);
+	return((tv.tv_sec * 1000L) + (tv.tv_usec / 1000L));
+}
+
+long	timer(t_var *var)
+{
+	long	time;
+	
+	time = get_time_in_ms();
+	time = time - var->start;
+	return (time);
+}
 
 int	ft_atoi(const char *str)
 {

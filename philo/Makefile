@@ -7,7 +7,7 @@ RESET = \033[0m
 
 CFLAGS	= -Wall -Werror -Wextra -ggdb
 
-SOURCES = ./philo.c ./utils.c
+SOURCES = ./philo.c ./utils.c ./routine.c ./init.c
 
 SRCDIR = src
 OBJDIR = obj
