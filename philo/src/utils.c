@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:56:21 by nrontard          #+#    #+#             */
-/*   Updated: 2025/04/17 11:40:54 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/04/17 19:10:48 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ long	get_time_in_ms()
 {
 	struct timeval tv;
 	gettimeofday(&tv, NULL);
-	return((tv.tv_sec * 1000L) + (tv.tv_usec / 1000L));
+	return((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
 }
 
 long	timer(t_var *var)
@@ -65,8 +65,11 @@ void	destroy_forks(pthread_mutex_t *forks, int nb_forks)
 	free(forks);
 }
 
-void	free_all(t_var *var)
+void	sleep_ms(int duration)
 {
-	destroy_forks(var->forks, var->nb_philo + 1);
-	free(var);
+	long	start;
+
+	start = get_time_in_ms();
+	while (get_time_in_ms() < start + duration)
+		usleep(500);
 }
