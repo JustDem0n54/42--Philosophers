@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 15:22:59 by nrontard          #+#    #+#             */
-/*   Updated: 2025/04/18 14:49:08 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/04/18 15:10:46 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef struct s_var
 }	t_var;
 
 //utils
-int		ft_atoi(const char *str);
+int		ft_atoi(const char *str, int utils);
 long	timer(t_var *var);
 long	get_time_in_ms(void);
 void	destroy_mutex(t_var *var, int nb_forks);

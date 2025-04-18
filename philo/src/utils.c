@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:56:21 by nrontard          #+#    #+#             */
-/*   Updated: 2025/04/18 14:51:12 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/04/18 15:13:07 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ long	timer(t_var *var)
 	return (time);
 }
 
-int	ft_atoi(const char *str)
+int	ft_atoi(const char *str, int utils)
 {
 	int	i;
 	int	res;
@@ -48,6 +48,8 @@ int	ft_atoi(const char *str)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 		res = res * 10 + (str[i++] - '0');
+	if (utils == 1 && str[i])
+		return (-1);
 	return (n * res);
 }
 

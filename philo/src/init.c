@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:43:13 by nrontard          #+#    #+#             */
-/*   Updated: 2025/04/18 14:00:38 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/04/18 15:12:25 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ t_philo	*init_philos(int nb_philos, t_var *var)
 t_var	*init_var(t_var *var, char **argv, int argc)
 {
 	var = malloc(sizeof(t_var) * 1);
-	var->nb_philo = ft_atoi(argv[1]);
-	var->t_death = ft_atoi(argv[2]);
-	var->t_eat = ft_atoi(argv[3]);
-	var->t_sleep = ft_atoi(argv[4]);
+	var->nb_philo = ft_atoi(argv[1], 0);
+	var->t_death = ft_atoi(argv[2], 0);
+	var->t_eat = ft_atoi(argv[3], 0);
+	var->t_sleep = ft_atoi(argv[4], 0);
 	var->nb_eat = -1;
 	if (argc == 6)
-		var->nb_eat = ft_atoi(argv[5]);
+		var->nb_eat = ft_atoi(argv[5], 0);
 	var->start = get_time_in_ms();
 	var->death = 1;
 	pthread_mutex_init(&var->check_death, NULL);
