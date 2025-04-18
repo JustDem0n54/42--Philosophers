@@ -6,23 +6,24 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 13:56:21 by nrontard          #+#    #+#             */
-/*   Updated: 2025/04/17 19:10:48 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/04/18 14:51:12 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-long	get_time_in_ms()
+long	get_time_in_ms(void)
 {
-	struct timeval tv;
+	struct timeval	tv;
+
 	gettimeofday(&tv, NULL);
-	return((tv.tv_sec * 1000) + (tv.tv_usec / 1000));
+	return ((tv.tv_sec * 1000L) + (tv.tv_usec / 1000L));
 }
 
 long	timer(t_var *var)
 {
 	long	time;
-	
+
 	time = get_time_in_ms();
 	time = time - var->start;
 	return (time);
@@ -50,19 +51,20 @@ int	ft_atoi(const char *str)
 	return (n * res);
 }
 
-void	destroy_forks(pthread_mutex_t *forks, int nb_forks)
+void	destroy_mutex(t_var *var, int nb_forks)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	if (forks == NULL)
-		return ;
 	while (i < nb_forks)
 	{
-		pthread_mutex_destroy(&forks[i]);
+		pthread_mutex_destroy(&var->forks[i]);
+		pthread_mutex_destroy(&var->philos[i].change_eat);
 		i++;
 	}
-	free(forks);
+	pthread_mutex_destroy(&var->check_death);
+	pthread_mutex_destroy(&var->print);
+	free(var->forks);
 }
 
 void	sleep_ms(int duration)

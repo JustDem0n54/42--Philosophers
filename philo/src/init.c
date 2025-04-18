@@ -6,7 +6,7 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:43:13 by nrontard          #+#    #+#             */
-/*   Updated: 2025/04/17 19:00:25 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/04/18 14:00:38 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ t_philo	*init_philos(int nb_philos, t_var *var)
 		philos[i].nb_ate = 0;
 		philos[i].t_last_eat = get_time_in_ms();
 		philos[i].var = var;
+		pthread_mutex_init(&philos[i].change_eat, NULL);
 		pthread_create(&philos[i].thread, NULL, philo_routine, &philos[i]);
 		i++;
 	}
@@ -64,7 +65,6 @@ t_var	*init_var(t_var *var, char **argv, int argc)
 	var->start = get_time_in_ms();
 	var->death = 1;
 	pthread_mutex_init(&var->check_death, NULL);
-	pthread_mutex_init(&var->change_eat, NULL);
 	pthread_mutex_init(&var->print, NULL);
 	var->forks = init_fork(var->nb_philo);
 	var->philos = init_philos(var->nb_philo, var);

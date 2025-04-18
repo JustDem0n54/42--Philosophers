@@ -6,93 +6,47 @@
 /*   By: nrontard <nrontard@student.42perpignan.    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 15:26:49 by nrontard          #+#    #+#             */
-/*   Updated: 2025/04/17 19:29:59 by nrontard         ###   ########.fr       */
+/*   Updated: 2025/04/18 14:49:46 by nrontard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../philo.h"
 
-int	check_death(t_var *var)
-{
-	int		i;
-	long	time;
-	long	temp;
-
-	i = 0;
-	while (i < var->nb_philo)
-	{
-		pthread_mutex_lock(&var->change_eat);
-		temp = var->philos[i].t_last_eat;
-		pthread_mutex_unlock(&var->change_eat);
-		time = get_time_in_ms();
-		if ((time - temp) > var->t_death)
-		{			
-			mutex_print(&var->philos[i], "died\n");
-			pthread_mutex_lock(&var->check_death);
-			var->death = 0;
-			pthread_mutex_unlock(&var->check_death);
-			return (1);
-		}
-		i++;
-	}
-	return (0);
-}
-
-int	check_nb_eat(t_var *var)
-{
-	int	i;
-	int count;
-	int	temp;
-
-	i = 0;
-	count = 0;
-	while (i < var->nb_philo)
-	{
-		pthread_mutex_lock(&var->change_eat);
-		temp = var->philos[i].nb_ate;
-		pthread_mutex_unlock(&var->change_eat);
-		if (var->philos[i].nb_ate >= var->nb_eat)
-			count++;
-		i++;
-		if (count >= var->nb_philo)
-			return (1);
-	}
-	return (0);
-}
-
-void	check_conditions(t_var *var)
-{
-	sleep_ms(var->t_death);
-	while (1)
-	{
-		if (check_death(var) == 1)
-			break ;
-		if (var->nb_eat != -1 && check_nb_eat(var) == 1)
-		{
-			pthread_mutex_lock(&var->check_death);
-			var->death = 0;
-			pthread_mutex_unlock(&var->check_death);
-			break ;
-		}	
-	}
-}
-
 void	free_all(t_var *var)
 {
-	destroy_forks(var->forks, var->nb_philo + 1);
-	// free(var->philos);
+	destroy_mutex(var, var->nb_philo);
+	free(var->philos);
 	free(var);
 }
 
-int main(int argc, char **argv)
+int	check_args(int argc, char **argv)
+{
+	int	i;
+
+	i = 1;
+	while (i < argc)
+	{
+		if (argv[i][0] < '0' || argv[i][0] > '9')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	main(int argc, char **argv)
 {
 	t_var	*var;
 	int		i;
-	
+
 	var = NULL;
 	i = 0;
-	if (argc > 6 || argc < 5)
+	if (argc > 6 || argc < 5 || check_args(argc, argv) == 1)
+	{
+		printf("Arguments should be : <number_of_philosophers> <time_to_die> "
+			"<time_to_eat> <time_to_sleep> "
+			"[number_of_times_each_philosopher_must_eat]\n");
 		return (0);
+	}
 	var = init_var(var, argv, argc);
 	check_conditions(var);
 	while (i < var->nb_philo)
